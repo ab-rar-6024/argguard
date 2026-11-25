@@ -2,6 +2,8 @@ import { spawn } from "node:child_process";
 import { createInterface } from "node:readline";
 import { validateSchema } from "./schemaValidator.js";
 import { AuditLogger, stripAnsi } from "./audit.js";
+import { RuleChecker } from "./ruleChecker.js";
+import { PolicyEngine, DEFAULT_POLICY } from "./policy.js";
 
 export class ProxyServer {
   constructor(options = {}) {
@@ -12,6 +14,8 @@ export class ProxyServer {
     this.timeoutMs = options.timeoutMs || 10000;
     this.maxPayloadBytes = options.maxPayloadBytes || 1024 * 1024; // 1MB default
     this.logger = new AuditLogger(this.auditFile);
+    this.ruleChecker = new RuleChecker();
+    this.policyEngine = new PolicyEngine(options.policy || DEFAULT_POLICY);
     this.targetProcess = null;
     this.knownTools = new Map();
     this.pendingRequests = new Map();
@@ -184,6 +188,13 @@ export class ProxyServer {
       verdicts = res.verdicts;
       action = res.action;
       clarifyFields = res.clarifyFields || [];
+    } else {
+      // Default to RuleChecker + PolicyEngine
+      const checkRes = this.ruleChecker.check(args, sources, toolDef?.inputSchema);
+      verdicts = checkRes.verdicts;
+      const policyRes = this.policyEngine.evaluate(toolName, verdicts);
+      action = policyRes.action;
+      clarifyFields = policyRes.clarifyFields;
     }
 
     // Log audit record
