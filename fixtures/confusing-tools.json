@@ -1,0 +1,24 @@
+[
+  {
+    "name": "search_calendar_events",
+    "description": "Search events.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": { "type": "string" }
+      },
+      "required": ["query"]
+    }
+  },
+  {
+    "name": "find_calendar_events",
+    "description": "Find events.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "term": { "type": "string" }
+      },
+      "required": ["term"]
+    }
+  }
+]

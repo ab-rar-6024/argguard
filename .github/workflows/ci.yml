@@ -1,4 +1,4 @@
-name: CI
+name: CI & Toolright Lint
 
 on:
   push:
@@ -15,5 +15,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Run Tests
+      - name: Install Toolright globally
+        run: npm install -g toolright
+      - name: Run Monorepo Tests
         run: npm test
+      - name: Lint MCP Fixture Descriptions with Toolright
+        run: |
+          toolright lint --tools fixtures/calendar-tools.json
+          toolright lint --tools fixtures/messaging-tools.json
+          toolright lint --tools fixtures/ticketing-tools.json
+          toolright lint --tools fixtures/tuned-calendar-tools.json

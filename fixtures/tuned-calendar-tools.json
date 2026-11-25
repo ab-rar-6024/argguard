@@ -1,0 +1,24 @@
+[
+  {
+    "name": "search_calendar_events",
+    "description": "Full-text keyword search across meeting titles, agendas, and transcripts. Use when searching past meeting content by keyword. Not for date filtering; use list_events_by_date.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": { "type": "string", "description": "Keyword or phrase to search within meeting text" }
+      },
+      "required": ["query"]
+    }
+  },
+  {
+    "name": "list_events_by_date",
+    "description": "List calendar schedule and events occurring within a specified date window. Use when checking agenda or schedule for a day. Not for full-text keyword searches; use search_calendar_events.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "date_range": { "type": "string", "description": "Date or date range (YYYY-MM-DD)" }
+      },
+      "required": ["date_range"]
+    }
+  }
+]
