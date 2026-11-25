@@ -1,0 +1,31 @@
+[
+  {
+    "name": "send_message",
+    "description": "Send a direct message or chat message to a user or channel. Use when delivering notifications, alerts, or personal notes.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "recipient": {
+          "type": "string",
+          "description": "User handle, username, or email address of the recipient"
+        },
+        "body": {
+          "type": "string",
+          "description": "Body text or message content to be sent"
+        },
+        "channel": {
+          "type": "string",
+          "description": "Optional channel or room name (e.g. #general)"
+        },
+        "urgent": {
+          "type": "boolean",
+          "description": "Whether this message should be flagged as high priority"
+        }
+      },
+      "required": [
+        "recipient",
+        "body"
+      ]
+    }
+  }
+]

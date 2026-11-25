@@ -1,0 +1,20 @@
+{
+  "name": "argguard-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "fixtures/*",
+    "bench"
+  ],
+  "scripts": {
+    "build": "npm run --workspaces --if-present build",
+    "test": "node --test tests/*.test.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

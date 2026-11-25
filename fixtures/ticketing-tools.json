@@ -1,0 +1,46 @@
+[
+  {
+    "name": "update_ticket",
+    "description": "Update the status, priority, or assignee of an existing support or project ticket. Use when managing incident reports or issue trackers.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ticket_id": {
+          "type": "string",
+          "description": "Unique identifier of the ticket (e.g., TICKET-101, BUG-42)"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "in_progress",
+            "resolved",
+            "closed"
+          ],
+          "description": "New status of the ticket"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "description": "Priority rating of the ticket"
+        },
+        "assignee": {
+          "type": "string",
+          "description": "Username or email of the team member assigned"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Internal note or resolution explanation"
+        }
+      },
+      "required": [
+        "ticket_id"
+      ]
+    }
+  }
+]
