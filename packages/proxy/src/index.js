@@ -4,5 +4,6 @@ export { AuditLogger, sanitizeData, stripAnsi } from "./audit.js";
 export { normalizeText, normalizeNumber, normalizeDate, isGroundableInText } from "./normalization.js";
 export { RuleChecker } from "./ruleChecker.js";
 export { ExtractorChecker } from "./extractorChecker.js";
+export { InjectionChecker } from "./injectionChecker.js";
 export { PolicyEngine, DEFAULT_POLICY } from "./policy.js";
 

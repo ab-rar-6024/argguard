@@ -3,6 +3,7 @@ import { createInterface } from "node:readline";
 import { validateSchema } from "./schemaValidator.js";
 import { AuditLogger, stripAnsi } from "./audit.js";
 import { RuleChecker } from "./ruleChecker.js";
+import { InjectionChecker } from "./injectionChecker.js";
 import { PolicyEngine, DEFAULT_POLICY } from "./policy.js";
 
 export class ProxyServer {
@@ -15,6 +16,7 @@ export class ProxyServer {
     this.maxPayloadBytes = options.maxPayloadBytes || 1024 * 1024; // 1MB default
     this.logger = new AuditLogger(this.auditFile);
     this.ruleChecker = new RuleChecker();
+    this.injectionChecker = new InjectionChecker();
     this.policyEngine = new PolicyEngine(options.policy || DEFAULT_POLICY);
     this.targetProcess = null;
     this.knownTools = new Map();
@@ -189,9 +191,19 @@ export class ProxyServer {
       action = res.action;
       clarifyFields = res.clarifyFields || [];
     } else {
-      // Default to RuleChecker + PolicyEngine
+      // 1. Run RuleChecker
       const checkRes = this.ruleChecker.check(args, sources, toolDef?.inputSchema);
-      verdicts = checkRes.verdicts;
+      verdicts = { ...checkRes.verdicts };
+
+      // 2. Run InjectionChecker
+      const injectionRes = this.injectionChecker.check(args, sources);
+      for (const [injField, injVerdict] of Object.entries(injectionRes.verdicts)) {
+        if (injVerdict === "INJECTION_SUSPECT") {
+          verdicts[injField] = "INJECTION_SUSPECT";
+        }
+      }
+
+      // 3. Evaluate Policy
       const policyRes = this.policyEngine.evaluate(toolName, verdicts);
       action = policyRes.action;
       clarifyFields = policyRes.clarifyFields;

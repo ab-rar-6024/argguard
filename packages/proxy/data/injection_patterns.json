@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ignore_instructions",
+    "pattern": "\\b(?:ignore|disregard|forget)\\s+(?:all\\s+)?(?:previous|prior|above)\\s+(?:instructions|rules|prompts)\\b",
+    "description": "Attempts to override prior instructions"
+  },
+  {
+    "id": "role_assumption",
+    "pattern": "\\b(?:you\\s+are\\s+now|act\\s+as|pretend\\s+to\\s+be|roleplay\\s+as)\\b",
+    "description": "Attempts to alter system persona or role"
+  },
+  {
+    "id": "system_prompt_leak",
+    "pattern": "\\b(?:reveal|print|output|display)\\s+(?:your\\s+)?(?:system\\s+prompt|instructions|initial\\s+prompt)\\b",
+    "description": "Attempts to extract internal system prompt"
+  },
+  {
+    "id": "imperative_tool_hijack",
+    "pattern": "\\b(?:instead\\s+call|always\\s+call|do\\s+not\\s+call|override\\s+tool|execute\\s+tool)\\b",
+    "description": "Explicit tool execution redirect instructions"
+  },
+  {
+    "id": "parameter_override",
+    "pattern": "\\b(?:use\\s+parameter|set\\s+argument|override\\s+the\\s+following|pass\\s+argument)\\b",
+    "description": "Explicit parameter manipulation command"
+  },
+  {
+    "id": "admin_elevation",
+    "pattern": "\\b(?:system\\s+administrator|root\\s+access|developer\\s+mode|administrative\\s+override)\\b",
+    "description": "Simulated authority or administrative command context"
+  }
+]
