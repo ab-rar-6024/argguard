@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "argguard-extractor"
+version = "0.1.0"
+description = "FastAPI inference service for ArgGuard schema-constrained extraction"
+readme = "README.md"
+authors = [{ name = "ArgGuard Team" }]
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "pydantic>=2.0.0",
+    "jsonschema>=4.20.0"
+]
+
+[project.optional-dependencies]
+gpu = [
+    "torch>=2.0.0",
+    "transformers>=4.40.0",
+    "peft>=0.10.0",
+    "bitsandbytes>=0.43.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
