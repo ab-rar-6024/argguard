@@ -1,0 +1,15 @@
+{
+  "seed": 20261125,
+  "counts": {
+    "train": 200,
+    "dev": 100,
+    "test": 100,
+    "fresh": 50
+  },
+  "hashes": {
+    "train.jsonl": "f1a00ad3cba64a79515c89155f4719b2d477aed3defc7021a2caed585ef038a9",
+    "dev.jsonl": "bac7465fd0320c725113a573f72ccd3f18e130ed34a84716b7806c5af1551b33",
+    "test.jsonl": "ad86ff48c298e886a51640f67d907bfe017ad22b885a323ff85b952c7de65563",
+    "fresh.jsonl": "4f3e6a340343786b5a5ccac2d4b477eb464fd7a5fe1607f7e84ab68f741d19b9"
+  }
+}
