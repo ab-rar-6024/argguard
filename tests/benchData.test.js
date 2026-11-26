@@ -18,7 +18,9 @@ test("ToolArgBench: data files exist and hashes match stats.json", () => {
     const filePath = `bench/data/${filename}`;
     assert.ok(existsSync(filePath), `${filePath} should exist`);
     const raw = readFileSync(filePath, "utf8");
-    const actualHash = createHash("sha256").update(raw).digest("hex");
+    // Normalize CRLF to LF so cryptographic checks are invariant across git checkout settings on Windows/Linux
+    const normalized = raw.replace(/\r\n/g, "\n");
+    const actualHash = createHash("sha256").update(normalized).digest("hex");
     assert.strictEqual(actualHash, expectedHash, `Hash mismatch for ${filename}`);
   }
 });

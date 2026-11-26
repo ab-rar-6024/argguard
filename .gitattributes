@@ -1,0 +1,7 @@
+# Enforce LF endings across all platforms so cryptographic hashes remain identical
+* text=auto eol=lf
+*.jsonl text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.js text eol=lf
+*.py text eol=lf
