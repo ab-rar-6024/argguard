@@ -1,0 +1,49 @@
+name: Release & Package Artifacts
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build Proxy Package Tarball
+        run: |
+          cd packages/proxy
+          npm pack
+          mv argguard-*.tgz ../../
+          cd ../..
+
+      - name: Build Python SDK & Extractor Distributions
+        run: |
+          pip install build
+          python -m build packages/extractor-service
+          python -m build packages/python-sdk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            argguard-*.tgz
+            packages/extractor-service/dist/*
+            packages/python-sdk/dist/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true

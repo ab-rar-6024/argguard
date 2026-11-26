@@ -1,4 +1,4 @@
-name: CI & Toolright Lint
+name: CI & Quality Gate
 
 on:
   push:
@@ -8,20 +8,44 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: Node ${{ matrix.node }} / Python ${{ matrix.python }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [20, 22]
+        python: ["3.10", "3.11"]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
+
+      - name: Setup Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - name: Install Toolright globally
+          node-version: ${{ matrix.node }}
+
+      - name: Setup Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install Toolright Globally
         run: npm install -g toolright
-      - name: Run Monorepo Tests
+
+      - name: Run Monorepo Unit & Integration Tests
         run: npm test
-      - name: Lint MCP Fixture Descriptions with Toolright
+
+      - name: Lint Fixture Tool Descriptions
         run: |
           toolright lint --tools fixtures/calendar-tools.json
           toolright lint --tools fixtures/messaging-tools.json
           toolright lint --tools fixtures/ticketing-tools.json
           toolright lint --tools fixtures/tuned-calendar-tools.json
+
+      - name: Install Python SDK & Run Unit Tests
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydantic
+          python -m unittest packages/python-sdk/tests/test_sdk.py
+        env:
+          PYTHONPATH: packages/python-sdk/src
