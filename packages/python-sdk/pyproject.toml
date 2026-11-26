@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "argguard"
+version = "0.1.0"
+description = "Python client SDK & framework adapters for ArgGuard MCP firewall"
+readme = "README.md"
+authors = [{ name = "ArgGuard Team" }]
+dependencies = [
+    "pydantic>=2.0.0"
+]
+
+[project.optional-dependencies]
+langchain = ["langchain-core>=0.2.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

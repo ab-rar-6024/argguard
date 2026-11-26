@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+src/argguard_extractor.egg-info/PKG-INFO
+src/argguard_extractor.egg-info/SOURCES.txt
+src/argguard_extractor.egg-info/dependency_links.txt
+src/argguard_extractor.egg-info/requires.txt
+src/argguard_extractor.egg-info/top_level.txt
